@@ -1,0 +1,90 @@
+Serial Link Test Program
+------------------------
+
+"sertest" is a test program for checking the integrity of serial port links.
+
+
+Features:
+  - Sends and/or receives variable length messages,
+  - Data is generated randomly, using a seed for reproducability (seed zero
+    means pseudo-random),
+  - Received data is verified against the expected data,
+  - Supports unidirectional links:
+      - master transmits,
+      - slave receives.
+  - Supports bidirectional links:
+      - master transmits,
+      - slave receives and retransmits,
+      - master receives.
+  - Supports chained multi-link configurations:
+      - master transmits,
+      - slave 1..n receive and retransmit,
+      - master (closed ring) or slave n+1 (open ring) receives.
+  - When chaining multiple links, the received data bytes are incremented by
+    one before retransmission.
+  
+
+Usage:
+
+    sertest: [options] <device> [<device2>]
+
+    Valid options are:
+	--master         Use master mode
+	--slave          Use slave mode (default)
+	--chain          Master and slave(s) are daisy chained
+	--icount         Only print icount
+	-h, --help       Display this usage information
+	-i, --seed       Initial seed (zero is pseudorandom)
+	-l, --len        Maximum message length (default 256, must be <= 4096)
+	-s, --speed      Serial speed
+	-v, --verbose    Enable verbose mode
+
+    If one device is specified, it is used for bidirectional communication.
+    If two devices are specified, the first device is used for output, and
+    the second device is used for input.
+
+    Use "CTRL-C" to print transfer statistics, "CTRL-\" to quit.
+
+
+Examples:
+
+  * Unidirectional test, transmitting from ttyS0 to ttyS1:
+
+	sertest --slave  /dev/ttyS1
+	sertest --master /dev/ttyS0 (somewhere else)
+
+    Wiring:
+        TXD0 -> RXD1
+
+  * Bidirectional test, transmitting from ttyS0 to ttyS1 and back:
+
+	sertest --slave  --chain /dev/ttyS1
+	sertest --master --chain /dev/ttyS0 (somewhere else)
+
+    Wiring ("null modem"):
+        TXD0 -> RXD1
+        TXD1 -> RXD0
+
+  * Bidirectional test, using two fifos instead of real serial ports:
+
+	mkfifo /tmp/fifo1
+	mkfifo /tmp/fifo2
+	sertest --slave --chain  /tmp/fifo2 /tmp/fifo1
+	sertest --master --chain /tmp/fifo1 /tmp/fifo2 (in another window)
+
+  * Ring chain test, ttyS0 -> ttyS1 -> ttyS2 -> ttyS3 -> ttyS0:
+
+	sertest --slave  --chain /dev/ttyS3
+	sertest --slave  --chain /dev/ttyS2 (somewhere else)
+	sertest --slave  --chain /dev/ttyS1 (somewhere else)
+	sertest --master --chain /dev/ttyS0 (somewhere else)
+
+    Wiring:
+        TXD0 -> RXD1
+        TXD1 -> RXD2
+        TXD2 -> RXD3
+        TXD3 -> RXD0
+
+
+
+
