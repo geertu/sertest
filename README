@@ -29,11 +29,11 @@ Usage:
     sertest: [options] <device> [<device2>]
 
     Valid options are:
+	-h, --help       Display this usage information
 	--master         Use master mode
 	--slave          Use slave mode (default)
 	--chain          Master and slave(s) are daisy chained
 	--icount         Only print icount
-	-h, --help       Display this usage information
 	-i, --seed       Initial seed (zero is pseudorandom)
 	-l, --len        Maximum message length (default 256, must be <= 4096)
 	-s, --speed      Serial speed

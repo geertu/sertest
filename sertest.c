@@ -1,7 +1,7 @@
 /*
  *  Serial Link Test Program
  *
- *  (C) Copyright 2015 Geert Uytterhoeven
+ *  (C) Copyright 2015-2016 Geert Uytterhoeven
  *
  *  This file is subject to the terms and conditions of the GNU General Public
  *  License.
@@ -551,11 +551,11 @@ static void __attribute__ ((noreturn)) usage(void)
 		"\n"
 		"%s: [options] <device> [<device2>]\n\n"
 		"Valid options are:\n"
+		"    -h, --help       Display this usage information\n"
 		"    --master         Use master mode\n"
 		"    --slave          Use slave mode (default)\n"
 		"    --chain          Master and slave(s) are daisy chained\n"
 		"    --icount         Only print icount\n"
-		"    -h, --help       Display this usage information\n"
 		"    -i, --seed       Initial seed (zero is pseudorandom)\n"
 		"    -l, --len        Maximum message length (default %u, must be <= %u)\n"
 		"    -s, --speed      Serial speed\n"
