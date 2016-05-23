@@ -70,8 +70,8 @@ static int opt_verbose;
 #define ESC_WHITE	"\e[37m"
 #define ESC_RM		"\e[0m"
 
-#define TAG_TX		ESC_BLUE "[tx]"
-#define TAG_RX		ESC_PURPLE "[rx]"
+#define TAG_TX		ESC_BLUE "[tx] "
+#define TAG_RX		ESC_PURPLE "[rx] "
 
 static brahe_prng_state_t prng;
 
@@ -188,9 +188,9 @@ static const char *thread_prefix(void)
 	pthread_t self = pthread_self();
 
 	if (self == rx_thread)
-		return ESC_PURPLE "[rx] ";
+		return TAG_RX;
 	if (self == tx_thread)
-		return ESC_BLUE "[tx] ";
+		return TAG_TX;
 
 	return "";
 }
