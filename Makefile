@@ -1,7 +1,7 @@
 CC = $(CROSS_COMPILE)gcc
 OFLAGS = -O3 -fomit-frame-pointer
 CFLAGS = -Wall -Werror $(OFLAGS) -g
-LFLAGS = -lbsd -lbrahe -lpthread
+LFLAGS = -lbsd -lbrahe -lpthread -lm
 
 TARGET =	sertest
 
